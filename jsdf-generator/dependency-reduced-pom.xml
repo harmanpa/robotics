@@ -22,11 +22,8 @@
   </build>
   <repositories>
     <repository>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-      <id>javabard-mvn-repo</id>
-      <url>https://raw.github.com/harmanpa/javabard/mvn-repo/</url>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
     </repository>
   </repositories>
   <properties>

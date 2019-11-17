@@ -138,7 +138,7 @@ public class Generator {
                         }
                     }
                     if (a.getDescription() != null) {
-                        attributeField.addJavadoc(a.getDescription().getDescriptionString());
+                        attributeField.addJavadoc(escapeHTML(a.getDescription().getDescriptionString()));
                     }
                     typeSpec.addField(attributeField.build());
                 });
@@ -182,7 +182,7 @@ public class Generator {
                             }
                         }
                         if (e.getDescription() != null) {
-                            elementField.addJavadoc(e.getDescription().getDescriptionString());
+                            elementField.addJavadoc(escapeHTML(e.getDescription().getDescriptionString()));
                         }
                         typeSpec.addField(elementField.build());
                     }
@@ -329,6 +329,21 @@ public class Generator {
         StringBuilder out = new StringBuilder(words[0].substring(0, 1).toUpperCase()).append(words[0].substring(1));
         for (int i = 1; i < words.length; i++) {
             out.append(words[i].substring(0, 1).toUpperCase()).append(words[i].substring(1));
+        }
+        return out.toString();
+    }
+
+    public String escapeHTML(String s) {
+        StringBuilder out = new StringBuilder(Math.max(16, s.length()));
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c > 127 || c == '"' || c == '<' || c == '>' || c == '&') {
+                out.append("&#");
+                out.append((int) c);
+                out.append(';');
+            } else {
+                out.append(c);
+            }
         }
         return out.toString();
     }

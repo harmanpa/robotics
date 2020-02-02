@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  *
  * @author peter
  */
-@JsonSerialize(as = SDFArrayType.class)
-@JsonDeserialize(as = SDFArrayType.class)
+@JsonSerialize(using = Color.ColorSerializer.class)
+@JsonDeserialize(using = Color.ColorDeserializer.class)
 public class Color extends SDFArrayType {
 
     public Color(double... data) {
@@ -33,4 +33,18 @@ public class Color extends SDFArrayType {
         return new java.awt.Color((float) getData()[0], (float) getData()[1], (float) getData()[2], (float) getData()[3]);
     }
 
+    static class ColorSerializer extends SDFArraySerializer<Color> {
+
+        public ColorSerializer() {
+            super(Color.class);
+        }
+
+    }
+
+    static class ColorDeserializer extends SDFArrayDeserializer<Color> {
+
+        public ColorDeserializer() {
+            super(Color.class);
+        }
+    }
 }

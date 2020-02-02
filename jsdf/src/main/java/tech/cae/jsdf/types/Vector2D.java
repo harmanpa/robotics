@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  *
  * @author peter
  */
-@JsonSerialize(as = SDFArrayType.class)
-@JsonDeserialize(as = SDFArrayType.class)
+@JsonSerialize(using = Vector2D.Vector2DSerializer.class)
+@JsonDeserialize(using = Vector2D.Vector2DDeserializer.class)
 public class Vector2D extends SDFArrayType {
 
     public Vector2D(double... data) {
@@ -23,5 +23,26 @@ public class Vector2D extends SDFArrayType {
     public Vector2D(String str) {
         super(str);
     }
-    
+
+    public static Vector2D fromCommonsMath(org.apache.commons.math3.geometry.euclidean.twod.Vector2D v2d) {
+        return new Vector2D(v2d.toArray());
+    }
+
+    public org.apache.commons.math3.geometry.euclidean.twod.Vector2D toCommonsMath() {
+        return new org.apache.commons.math3.geometry.euclidean.twod.Vector2D(getData());
+    }
+    static class Vector2DSerializer extends SDFArraySerializer<Vector2D> {
+
+        public Vector2DSerializer() {
+            super(Vector2D.class);
+        }
+
+    }
+
+    static class Vector2DDeserializer extends SDFArrayDeserializer<Vector2D> {
+
+        public Vector2DDeserializer() {
+            super(Vector2D.class);
+        }
+    }
 }

@@ -15,6 +15,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -35,10 +37,12 @@ class SDFArrayType {
     }
 
     static double[] parse(String str) {
-        String[] strs = str.trim().split("[\\w]+");
-        double[] out = new double[strs.length];
-        for (int i = 0; i < out.length; i++) {
-            out[i] = Double.parseDouble(strs[i]);
+        System.out.println("Parsing " + str);
+        StringTokenizer tokenizer = new StringTokenizer(str);
+        double[] out = new double[tokenizer.countTokens()];
+        int i = 0;
+        while (tokenizer.hasMoreTokens()) {
+            out[i] = Double.parseDouble(tokenizer.nextToken());
         }
         return out;
     }
@@ -59,28 +63,32 @@ class SDFArrayType {
         return sb.toString();
     }
 
-    static class SDFArraySerializer extends StdSerializer<SDFArrayType> {
+    static class SDFArraySerializer<T extends SDFArrayType> extends StdSerializer<T> {
 
-        public SDFArraySerializer() {
-            super(SDFArrayType.class);
+        public SDFArraySerializer(Class<T> c) {
+            super(c);
         }
 
         @Override
-        public void serialize(SDFArrayType t, JsonGenerator jg, SerializerProvider sp) throws IOException {
-            jg.writeRaw(t.toString());
+        public void serialize(T t, JsonGenerator jg, SerializerProvider sp) throws IOException {
+            jg.writeString(t.toString());
         }
 
     }
 
-    static class SDFArrayDeserializer extends StdDeserializer<SDFArrayType> {
+    static class SDFArrayDeserializer<T extends SDFArrayType> extends StdDeserializer<T> {
 
-        public SDFArrayDeserializer() {
-            super(SDFArrayType.class);
+        public SDFArrayDeserializer(Class<T> c) {
+            super(c);
         }
 
         @Override
-        public SDFArrayType deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
-            return new SDFArrayType(jp.getText());
+        public T deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
+            try {
+                return ((Class<T>) getValueClass()).getConstructor(String.class).newInstance(jp.getValueAsString());
+            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                throw new IOException("Failed to deserialize " + jp.getText() + " to type " + getValueClass().toString(), ex);
+            }
         }
 
     }

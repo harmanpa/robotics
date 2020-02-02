@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  *
  * @author peter
  */
-@JsonSerialize(as = SDFArrayType.class)
-@JsonDeserialize(as = SDFArrayType.class)
+@JsonSerialize(using = Time.TimeSerializer.class)
+@JsonDeserialize(using = Time.TimeDeserializer.class)
 public class Time extends SDFArrayType {
 
     public Time(double... data) {
@@ -23,5 +23,18 @@ public class Time extends SDFArrayType {
     public Time(String str) {
         super(str);
     }
-    
+    static class TimeSerializer extends SDFArraySerializer<Time> {
+
+        public TimeSerializer() {
+            super(Time.class);
+        }
+
+    }
+
+    static class TimeDeserializer extends SDFArrayDeserializer<Time> {
+
+        public TimeDeserializer() {
+            super(Time.class);
+        }
+    }
 }

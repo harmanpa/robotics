@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  *
  * @author peter
  */
-@JsonSerialize(as = SDFArrayType.class)
-@JsonDeserialize(as = SDFArrayType.class)
+@JsonSerialize(using = Vector3D.Vector3DSerializer.class)
+@JsonDeserialize(using = Vector3D.Vector3DDeserializer.class)
 public class Vector3D extends SDFArrayType {
 
     public Vector3D(double... data) {
@@ -24,4 +24,26 @@ public class Vector3D extends SDFArrayType {
         super(str);
     }
 
+    public static Vector3D fromCommonsMath(org.apache.commons.math3.geometry.euclidean.threed.Vector3D v3d) {
+        return new Vector3D(v3d.toArray());
+    }
+
+    public org.apache.commons.math3.geometry.euclidean.threed.Vector3D toCommonsMath() {
+        return new org.apache.commons.math3.geometry.euclidean.threed.Vector3D(getData());
+    }
+
+    static class Vector3DSerializer extends SDFArraySerializer<Vector3D> {
+
+        public Vector3DSerializer() {
+            super(Vector3D.class);
+        }
+
+    }
+
+    static class Vector3DDeserializer extends SDFArrayDeserializer<Vector3D> {
+
+        public Vector3DDeserializer() {
+            super(Vector3D.class);
+        }
+    }
 }

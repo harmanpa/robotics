@@ -5,8 +5,10 @@
  */
 package tech.cae.jsdf.generator;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
@@ -91,9 +93,10 @@ public class Generator {
             if (!typeSpecs.containsKey(typeName)) {
                 TypeSpec.Builder typeSpec = TypeSpec.classBuilder(ClassName.bestGuess(typeName))
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
-                if (!element.getAttributes().isEmpty()) {
-                    typeSpec.addMethod(MethodSpec.constructorBuilder().addModifiers(Modifier.PROTECTED).build());
+                if (!(element.getAttributes().isEmpty() && element.getElements().isEmpty())) {
+                    typeSpec.addMethod(MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC).build());
                 }
+                typeSpec.addAnnotation(AnnotationSpec.builder(JsonInclude.class).addMember("value", "JsonInclude.Include.NON_EMPTY").build());
                 path.addLast(element.getName());
                 element.getAttributes().forEach(a -> {
                     ClassName attributeType = handleAttribute(a, path);
@@ -123,9 +126,6 @@ public class Generator {
                                 case "java.lang.String":
                                     attributeField.initializer("\"" + a.getDefaultValue() + "\"");
                                     break;
-                                case "java.lang.Boolean":
-                                    attributeField.initializer("0".equals(a.getDefaultValue()) ? "false" : "true");
-                                    break;
                                 case "java.lang.Double":
                                     attributeField.initializer(a.getDefaultValue() + "d");
                                     break;
@@ -149,6 +149,8 @@ public class Generator {
                         if (e.isCollection()) {
                             elementField = FieldSpec.builder(ParameterizedTypeName.get(ClassName.get(List.class), elementType),
                                     toCamelCase(e.getName()), Modifier.PRIVATE)
+                                    .addAnnotation(AnnotationSpec.builder(JacksonXmlElementWrapper.class)
+                                            .addMember("useWrapping", "false").build())
                                     .addAnnotation(AnnotationSpec.builder(JacksonXmlProperty.class)
                                             .addMember("localName", "\"" + e.getName() + "\"").addMember("isAttribute", "false").build());
                             if (e.isRequired()) {
@@ -166,9 +168,6 @@ public class Generator {
                                 switch (elementType.toString()) {
                                     case "java.lang.String":
                                         elementField.initializer("\"" + e.getDefaultValue() + "\"");
-                                        break;
-                                    case "java.lang.Boolean":
-                                        elementField.initializer("0".equals(e.getDefaultValue()) ? "false" : "true");
                                         break;
                                     case "java.lang.Double":
                                         elementField.initializer(e.getDefaultValue() + "d");
@@ -208,7 +207,7 @@ public class Generator {
                 case "string":
                     return "java.lang.String";
                 case "bool":
-                    return "java.lang.Boolean";
+                    return "tech.cae.jsdf.types.Boolean";
                 case "int":
                 case "unsigned int":
                     return "java.lang.Integer";
@@ -262,7 +261,7 @@ public class Generator {
                 case "string":
                     return "java.lang.String";
                 case "bool":
-                    return "java.lang.Boolean";
+                    return "tech.cae.jsdf.types.Boolean";
                 case "int":
                 case "unsigned int":
                     return "java.lang.Integer";

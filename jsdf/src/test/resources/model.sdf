@@ -95,7 +95,6 @@
         </inertia>
       </inertial>
       <visual name='vis_plate_on_ground'>
-        <pose frame=''>0 0 0.01 0 -0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.8</radius>
@@ -108,6 +107,7 @@
             <name>Gazebo/Grey</name>
           </script>
         </material>
+        <pose frame=''>0 0 0.01 0 -0 0</pose>
       </visual>
       <visual name='vis_pole'>
         <pose frame=''>-0.275 0 1.1 0 -0 0</pose>

@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import javax.lang.model.element.Modifier;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import org.apache.commons.lang.StringEscapeUtils;
 import tech.cae.javabard.BuilderSpec;
 import tech.cae.javabard.GetterSpec;
 import tech.cae.javabard.SetterSpec;
@@ -97,6 +98,9 @@ public class Generator {
                     typeSpec.addMethod(MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC).build());
                 }
                 typeSpec.addAnnotation(AnnotationSpec.builder(JsonInclude.class).addMember("value", "JsonInclude.Include.NON_EMPTY").build());
+                if (element.getDescription() != null && element.getDescription().getDescriptionString() != null) {
+                    typeSpec.addJavadoc(StringEscapeUtils.escapeHtml(element.getDescription().getDescriptionString()));
+                }
                 path.addLast(element.getName());
                 element.getAttributes().forEach(a -> {
                     ClassName attributeType = handleAttribute(a, path);

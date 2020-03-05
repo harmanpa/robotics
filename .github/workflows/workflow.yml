@@ -14,7 +14,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn  -B -e -Dmaven.wagon.http.pool=false package
+      run: mvn  -B -e -Dmaven.wagon.http.pool=false --settings settings.xml deploy
       env:
           GITHUB_USERNAME: x-access-token
           GITHUB_PASSWORD: ${{ secrets.GITHUB_ACCESS_TOKEN }}

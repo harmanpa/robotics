@@ -7,6 +7,7 @@ package tech.cae.jsdf.generator.schema;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Description {
     private String descriptionString;
 
     public String getDescriptionString() {
-        return descriptionString;
+        return StringEscapeUtils.escapeJava(descriptionString);
     }
 
     public void setDescriptionString(String descriptionString) {

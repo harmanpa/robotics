@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.StringTokenizer;
 
 /**
@@ -24,11 +25,25 @@ import java.util.StringTokenizer;
  */
 @JsonSerialize(using = SDFArrayType.SDFArraySerializer.class)
 @JsonDeserialize(using = SDFArrayType.SDFArrayDeserializer.class)
-class SDFArrayType {
+class SDFArrayType implements SDFType {
 
-    private final double[] data;
+    private final BigDecimal[] data;
+
+    protected SDFArrayType(float... data) {
+        this.data = new BigDecimal[data.length];
+        for (int i = 0; i < data.length; i++) {
+            this.data[i] = new BigDecimal((double) data[i]);
+        }
+    }
 
     protected SDFArrayType(double... data) {
+        this.data = new BigDecimal[data.length];
+        for (int i = 0; i < data.length; i++) {
+            this.data[i] = new BigDecimal(data[i]);
+        }
+    }
+
+    protected SDFArrayType(BigDecimal... data) {
         this.data = data;
     }
 
@@ -36,19 +51,45 @@ class SDFArrayType {
         this(parse(str));
     }
 
-    static double[] parse(String str) {
+    static BigDecimal[] parse(String str) {
         System.out.println("Parsing " + str);
         StringTokenizer tokenizer = new StringTokenizer(str);
-        double[] out = new double[tokenizer.countTokens()];
+        BigDecimal[] out = new BigDecimal[tokenizer.countTokens()];
         int i = 0;
         while (tokenizer.hasMoreTokens()) {
-            out[i] = Double.parseDouble(tokenizer.nextToken());
+            out[i] = new BigDecimal(tokenizer.nextToken());
+            i++;
         }
         return out;
     }
 
-    protected double[] getData() {
+    protected BigDecimal[] getData() {
         return data;
+    }
+
+    protected double[] getDoubleData() {
+        double[] out = new double[data.length];
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].doubleValue();
+        }
+        return out;
+    }
+
+    protected float[] getFloatData() {
+        float[] out = new float[data.length];
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].floatValue();
+        }
+        return out;
+    }
+
+    public boolean isEmpty() {
+        for (BigDecimal bd : data) {
+            if (bd.compareTo(BigDecimal.ZERO) != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -56,7 +97,7 @@ class SDFArrayType {
         if (data.length == 0) {
             return "";
         }
-        StringBuilder sb = new StringBuilder(Double.toString(data[0]));
+        StringBuilder sb = new StringBuilder(data[0].toPlainString());
         for (int i = 1; i < data.length; i++) {
             sb.append(' ').append(data[i]);
         }
@@ -72,6 +113,11 @@ class SDFArrayType {
         @Override
         public void serialize(T t, JsonGenerator jg, SerializerProvider sp) throws IOException {
             jg.writeString(t.toString());
+        }
+
+        @Override
+        public boolean isEmpty(SerializerProvider provider, T value) {
+            return value.isEmpty();
         }
 
     }

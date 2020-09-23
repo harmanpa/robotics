@@ -16,6 +16,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonDeserialize(using = Color.ColorDeserializer.class)
 public class Color extends SDFArrayType {
 
+    public Color(float... data) {
+        super(data);
+    }
+
     public Color(double... data) {
         super(data);
     }
@@ -26,11 +30,12 @@ public class Color extends SDFArrayType {
 
     public static Color fromAWT(java.awt.Color awt) {
         float[] rgba = awt.getRGBComponents(null);
-        return new Color((double) rgba[0], (double) rgba[1], (double) rgba[2], (double) rgba[3]);
+        return new Color(rgba);
     }
 
     public java.awt.Color toAWT() {
-        return new java.awt.Color((float) getData()[0], (float) getData()[1], (float) getData()[2], (float) getData()[3]);
+        float[] fd = getFloatData();
+        return new java.awt.Color(fd[0], fd[1], fd[2], fd[3]);
     }
 
     static class ColorSerializer extends SDFArraySerializer<Color> {

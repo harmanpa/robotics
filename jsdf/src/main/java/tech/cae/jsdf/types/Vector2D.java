@@ -29,7 +29,7 @@ public class Vector2D extends SDFArrayType {
     }
 
     public org.apache.commons.math3.geometry.euclidean.twod.Vector2D toCommonsMath() {
-        return new org.apache.commons.math3.geometry.euclidean.twod.Vector2D(getData());
+        return new org.apache.commons.math3.geometry.euclidean.twod.Vector2D(getDoubleData());
     }
     static class Vector2DSerializer extends SDFArraySerializer<Vector2D> {
 

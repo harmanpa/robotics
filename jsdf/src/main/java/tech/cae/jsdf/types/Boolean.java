@@ -10,6 +10,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
@@ -18,6 +20,8 @@ import java.io.IOException;
  *
  * @author peter
  */
+@JsonSerialize(using = Boolean.BooleanSerializer.class)
+@JsonDeserialize(using = Boolean.BooleanDeserializer.class)
 public class Boolean {
 
     private final boolean state;
@@ -50,6 +54,10 @@ public class Boolean {
             jg.writeString(t.toString());
         }
 
+        @Override
+        public boolean isEmpty(SerializerProvider provider, Boolean value) {
+            return !value.state;
+        }
     }
 
     static class BooleanDeserializer extends StdDeserializer<Boolean> {

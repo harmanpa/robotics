@@ -5,17 +5,21 @@
  */
 package tech.cae.jsdf.generator;
 
+import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.io.File;
 import java.io.IOException;
@@ -94,11 +98,14 @@ public class Generator {
             if (!typeSpecs.containsKey(typeName)) {
                 TypeSpec.Builder typeSpec = TypeSpec.classBuilder(ClassName.bestGuess(typeName))
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
+                typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFType"));
                 if (!(element.getAttributes().isEmpty() && element.getElements().isEmpty())) {
                     typeSpec.addMethod(MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC).build());
                 }
                 typeSpec.addAnnotation(AnnotationSpec.builder(JsonInclude.class).addMember("value", "JsonInclude.Include.NON_EMPTY").build());
+                typeSpec.addAnnotation(AnnotationSpec.builder(JacksonXmlRootElement.class).addMember("localName", "\"" + element.getName() + "\"").build());
                 if (element.getDescription() != null && element.getDescription().getDescriptionString() != null) {
+                    typeSpec.addAnnotation(AnnotationSpec.builder(JsonClassDescription.class).addMember("value", "\"" + element.getDescription().getDescriptionString() + "\"").build());
                     typeSpec.addJavadoc(StringEscapeUtils.escapeHtml(element.getDescription().getDescriptionString()));
                 }
                 path.addLast(element.getName());
@@ -143,6 +150,8 @@ public class Generator {
                     }
                     if (a.getDescription() != null) {
                         attributeField.addJavadoc(escapeHTML(a.getDescription().getDescriptionString()));
+                        attributeField.addAnnotation(AnnotationSpec.builder(JsonPropertyDescription.class)
+                                    .addMember("value", "\"" + a.getDescription().getDescriptionString() + "\"").build());
                     }
                     typeSpec.addField(attributeField.build());
                 });
@@ -186,11 +195,24 @@ public class Generator {
                         }
                         if (e.getDescription() != null) {
                             elementField.addJavadoc(escapeHTML(e.getDescription().getDescriptionString()));
+                            elementField.addAnnotation(AnnotationSpec.builder(JsonPropertyDescription.class)
+                                        .addMember("value", "\"" + e.getDescription().getDescriptionString() + "\"").build());
                         }
                         typeSpec.addField(elementField.build());
                     }
                 });
                 path.removeLast();
+                typeSpec.addMethod(MethodSpec.methodBuilder("toString")
+                        .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                        .returns(String.class)
+                        .addAnnotation(Override.class)
+                        .addCode("return tech.cae.jsdf.SDFIO.toString(this);\n").build());
+                typeSpec.addMethod(MethodSpec.methodBuilder("equals")
+                        .returns(TypeName.BOOLEAN)
+                        .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                        .addParameter(Object.class, "other")
+                        .addAnnotation(Override.class)
+                        .addCode("return tech.cae.jsdf.SDFIO.equals(this, other);\n").build());
                 typeSpecs.put(typeName, typeSpec);
             }
         }

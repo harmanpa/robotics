@@ -8,15 +8,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* && git fetch --prune --unshallow
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn package
+      run: mvn  -B -e -Dmaven.wagon.http.pool=false --settings settings.xml deploy
+      env:
+          GITHUB_USERNAME: x-access-token
+          GITHUB_PASSWORD: ${{ secrets.GITHUB_ACCESS_TOKEN }}
     - name: Deploy javadoc
       uses: maxheld83/ghpages@v0.2.1
       env:
         BUILD_DIR: jsdf/target/site/apidocs/
-
+        GH_PAT: ${{ secrets.GITHUB_ACCESS_TOKEN }}

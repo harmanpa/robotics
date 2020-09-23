@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>tech.cae</groupId>
     <artifactId>jsdf-parent</artifactId>
-    <version>0.0.1</version>
+    <version>dev</version>
     <packaging>pom</packaging>
     <modules>
         <module>jsdf-generator</module>

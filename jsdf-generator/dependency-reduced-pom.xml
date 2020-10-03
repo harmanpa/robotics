@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>tech.cae</groupId>
   <artifactId>jsdf-generator</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.0-33888023</version>
   <build>
     <plugins>
       <plugin>
@@ -17,6 +17,13 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>

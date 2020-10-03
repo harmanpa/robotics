@@ -18,6 +18,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import tech.cae.jsdf.log.GazeboLog;
 import tech.cae.jsdf.log.LogState;
+import tech.cae.jsdf.v1_6.Sdf;
 
 /**
  *

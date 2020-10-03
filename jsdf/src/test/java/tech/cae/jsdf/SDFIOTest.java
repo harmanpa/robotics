@@ -7,6 +7,8 @@ package tech.cae.jsdf;
 
 import java.io.IOException;
 import org.junit.Test;
+import tech.cae.jsdf.types.SDFRootType;
+import tech.cae.jsdf.v1_6.Sdf;
 
 /**
  *
@@ -15,7 +17,23 @@ import org.junit.Test;
 public class SDFIOTest {
 
     @Test
-    public void test() throws IOException {
-        Sdf sdf = SDFIO.load(ClassLoader.getSystemClassLoader().getResourceAsStream("model.sdf"));
+    public void testSpecificVersion() throws IOException {
+        Sdf sdf = SDFIO.load(ClassLoader.getSystemClassLoader().getResourceAsStream("model.sdf"), Sdf.class);
+    }
+
+    @Test
+    public void testUnknownVersion() throws IOException {
+        SDFRootType sdf = SDFIO.load(ClassLoader.getSystemClassLoader().getResourceAsStream("model.sdf"));
+        System.out.println("Loaded as version " + sdf.getVersion());
+    }
+
+    @Test
+    public void testSniffVersion() throws IOException {
+        String version = SDFIO.sniffVersion(ClassLoader.getSystemClassLoader().getResourceAsStream("model.sdf"));
+    }
+
+    @Test
+    public void testAvailableVersions() throws IOException {
+        SDFIO.supportedVersions().forEach(version -> System.out.println(version));
     }
 }

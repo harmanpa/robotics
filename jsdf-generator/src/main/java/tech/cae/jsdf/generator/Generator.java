@@ -13,6 +13,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.google.auto.service.AutoService;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
@@ -50,30 +51,21 @@ import tech.cae.jsdf.generator.schema.SchemaException;
  */
 public class Generator {
 
-    private final String pkg = "tech.cae.jsdf";
+    private String pkg = "tech.cae.jsdf";
     private final Map<String, TypeSpec.Builder> typeSpecs = new HashMap<>();
 
     public static void main(String[] args) {
         try {
             Generator g = new Generator();
-            g.generate(new File(args[0]), new File(args[1]));
+            g.generate(new File(args[0]), new File(args[1]), args[2]);
         } catch (Exception ex) {
             Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void generate(File sdfDirectory, File outDirectory) throws SchemaException, IOException {
+    public void generate(File sdfDirectory, File outDirectory, String version) throws SchemaException, IOException {
         outDirectory.mkdir();
-//        for (File f : directory.listFiles(f -> f.getName().endsWith(".sdf"))) {
-//            XmlMapper xmlMapper = new XmlMapper();
-//            try {
-//                System.out.println(f);
-//                Element element = xmlMapper.readValue(f, Element.class);
-//                System.out.println(element.getElements().size());
-//            } catch (IOException ex) {
-//                Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+        this.pkg = this.pkg + ".v" + version.replace(".", "_");
         File worldFile = new File(sdfDirectory, "root.sdf");
         XmlMapper xmlMapper = new XmlMapper();
         Element world = xmlMapper.readValue(worldFile, Element.class);
@@ -98,7 +90,14 @@ public class Generator {
             if (!typeSpecs.containsKey(typeName)) {
                 TypeSpec.Builder typeSpec = TypeSpec.classBuilder(ClassName.bestGuess(typeName))
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
-                typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFType"));
+                if ("sdf".equals(element.getName())) {
+                    typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFRootType"));
+                    typeSpec.addAnnotation(AnnotationSpec.builder(AutoService.class)
+                            .addMember("value", "tech.cae.jsdf.types.SDFRootType.class")
+                            .build());
+                } else {
+                    typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFType"));
+                }
                 if (!(element.getAttributes().isEmpty() && element.getElements().isEmpty())) {
                     typeSpec.addMethod(MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC).build());
                 }
@@ -140,8 +139,8 @@ public class Generator {
                                 case "java.lang.Double":
                                     attributeField.initializer(a.getDefaultValue() + "d");
                                     break;
-                                case "java.lang.Integer":
-                                    attributeField.initializer(a.getDefaultValue());
+                                case "java.lang.Long":
+                                    attributeField.initializer(a.getDefaultValue() + "L");
                                     break;
                                 default:
                                     attributeField.initializer("new " + attributeType.toString() + "(\"" + a.getDefaultValue() + "\")");
@@ -151,7 +150,7 @@ public class Generator {
                     if (a.getDescription() != null) {
                         attributeField.addJavadoc(escapeHTML(a.getDescription().getDescriptionString()));
                         attributeField.addAnnotation(AnnotationSpec.builder(JsonPropertyDescription.class)
-                                    .addMember("value", "\"" + a.getDescription().getDescriptionString() + "\"").build());
+                                .addMember("value", "\"" + a.getDescription().getDescriptionString() + "\"").build());
                     }
                     typeSpec.addField(attributeField.build());
                 });
@@ -185,8 +184,8 @@ public class Generator {
                                     case "java.lang.Double":
                                         elementField.initializer(e.getDefaultValue() + "d");
                                         break;
-                                    case "java.lang.Integer":
-                                        elementField.initializer(e.getDefaultValue());
+                                    case "java.lang.Long":
+                                        elementField.initializer(e.getDefaultValue() + "L");
                                         break;
                                     default:
                                         elementField.initializer("new " + elementType.toString() + "(\"" + e.getDefaultValue() + "\")");
@@ -196,7 +195,7 @@ public class Generator {
                         if (e.getDescription() != null) {
                             elementField.addJavadoc(escapeHTML(e.getDescription().getDescriptionString()));
                             elementField.addAnnotation(AnnotationSpec.builder(JsonPropertyDescription.class)
-                                        .addMember("value", "\"" + e.getDescription().getDescriptionString() + "\"").build());
+                                    .addMember("value", "\"" + e.getDescription().getDescriptionString() + "\"").build());
                         }
                         typeSpec.addField(elementField.build());
                     }
@@ -236,7 +235,7 @@ public class Generator {
                     return "tech.cae.jsdf.types.Boolean";
                 case "int":
                 case "unsigned int":
-                    return "java.lang.Integer";
+                    return "java.lang.Long";
                 case "double":
                     return "java.lang.Double";
                 case "color":
@@ -290,7 +289,7 @@ public class Generator {
                     return "tech.cae.jsdf.types.Boolean";
                 case "int":
                 case "unsigned int":
-                    return "java.lang.Integer";
+                    return "java.lang.Long";
                 case "double":
                     return "java.lang.Double";
                 case "color":

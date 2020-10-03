@@ -18,8 +18,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import tech.cae.jsdf.SDFIO;
-import tech.cae.jsdf.Sdf;
-import tech.cae.jsdf.State;
+import tech.cae.jsdf.v1_6.Sdf;
+import tech.cae.jsdf.v1_6.State;
 
 /**
  *

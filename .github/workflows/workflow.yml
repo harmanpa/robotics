@@ -1,6 +1,10 @@
 name: Build
 
-on: [push]
+on:
+  push:
+    branches:
+    - master
+    - develop
 
 jobs:
   build:
@@ -17,10 +21,30 @@ jobs:
     - name: Build with Maven
       run: mvn  -B -e -Dmaven.wagon.http.pool=false --settings settings.xml deploy
       env:
-          GITHUB_USERNAME: x-access-token
+          GITHUB_USERNAME: harmanpa
           GITHUB_PASSWORD: ${{ secrets.GITHUB_ACCESS_TOKEN }}
     - name: Deploy javadoc
       uses: maxheld83/ghpages@v0.2.1
       env:
         BUILD_DIR: jsdf/target/site/apidocs/
         GH_PAT: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+    - name: Job Failed Notification
+      if: ${{ failure() }}
+      uses: rtCamp/action-slack-notify@v2.1.2
+      env:
+        SLACK_CHANNEL: releases
+        SLACK_COLOR: '#ff0000'
+        SLACK_TITLE: 'JSDF Build Failed'
+        SLACK_USERNAME: sdfbot
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        MSG_MINIMAL: commit
+        SLACK_FOOTER: CAE Tech
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2.1.2
+      env:
+        SLACK_CHANNEL: releases
+        SLACK_TITLE: 'New build of JSDF'
+        SLACK_USERNAME: sdfbot
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        MSG_MINIMAL: commit
+        SLACK_FOOTER: CAE Tech

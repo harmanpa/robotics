@@ -54,12 +54,14 @@ public class Generator {
     private String pkg = "tech.cae.jsdf";
     private final Map<String, TypeSpec.Builder> typeSpecs = new HashMap<>();
 
+    @SuppressWarnings("UseSpecificCatch")
     public static void main(String[] args) {
         try {
             Generator g = new Generator();
             g.generate(new File(args[0]), new File(args[1]), args[2]);
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-1);
         }
     }
 
@@ -250,6 +252,7 @@ public class Generator {
                 case "int":
                 case "unsigned int":
                     return "java.lang.Long";
+                case "float":
                 case "double":
                     return "java.lang.Double";
                 case "color":
@@ -307,6 +310,7 @@ public class Generator {
                 case "int":
                 case "unsigned int":
                     return "java.lang.Long";
+                case "float":
                 case "double":
                     return "java.lang.Double";
                 case "color":

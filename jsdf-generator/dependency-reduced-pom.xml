@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>tech.cae</groupId>
   <artifactId>jsdf-generator</artifactId>
-  <version>0.0.0-7113a0aa</version>
+  <version>0.0.0-7ad94c66</version>
   <build>
     <plugins>
       <plugin>

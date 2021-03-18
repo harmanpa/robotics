@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.math3.geometry.euclidean.threed.RotationConvention;
 import org.apache.commons.math3.geometry.euclidean.threed.RotationOrder;
 import tech.cae.jsdf.types.SDFArrayType.SDFArrayDeserializer;
@@ -46,6 +47,7 @@ public class Pose {
         return new Pose(a6);
     }
 
+    @Schema(type = "string", pattern = "")
     @JsonSerialize(using = Pose.PoseSerializer.class)
     @JsonDeserialize(using = Pose.PoseDeserializer.class)
     public static class PoseContent extends SDFArrayType {

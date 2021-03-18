@@ -10,26 +10,27 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
-import tech.cae.jsdf.v1_6.State;
+import tech.cae.jsdf.types.SDFStateType;
 
 /**
  *
  * @author peter
+ * @param <S>
  */
 @JacksonXmlRootElement(localName = "sdf")
-public class LogState {
+public class LogState<S extends SDFStateType> {
 
     @JacksonXmlProperty(isAttribute = true, localName = "version")
     private String version;
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(isAttribute = false, localName = "state")
-    private final List<State> states = new ArrayList<>();
+    private final List<S> states = new ArrayList<>();
 
     public String getVersion() {
         return version;
     }
 
-    public List<State> getStates() {
+    public List<S> getStates() {
         return states;
     }
 

@@ -90,13 +90,27 @@ public class Generator {
             if (!typeSpecs.containsKey(typeName)) {
                 TypeSpec.Builder typeSpec = TypeSpec.classBuilder(ClassName.bestGuess(typeName))
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
-                if ("sdf".equals(element.getName())) {
-                    typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFRootType"));
-                    typeSpec.addAnnotation(AnnotationSpec.builder(AutoService.class)
-                            .addMember("value", "tech.cae.jsdf.types.SDFRootType.class")
-                            .build());
-                } else {
-                    typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFType"));
+                switch (element.getName()) {
+                    case "sdf":
+                        typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFRootType"));
+                        typeSpec.addAnnotation(AnnotationSpec.builder(AutoService.class)
+                                .addMember("value", "tech.cae.jsdf.types.SDFRootType.class")
+                                .build());
+                        break;
+                    case "state":
+                        typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFStateType"));
+                        typeSpec.addAnnotation(AnnotationSpec.builder(AutoService.class)
+                                .addMember("value", "tech.cae.jsdf.types.SDFStateType.class")
+                                .build());
+                        break;
+                    case "include":
+                        typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFIncludeType"));
+                        typeSpec.addAnnotation(AnnotationSpec.builder(AutoService.class)
+                                .addMember("value", "tech.cae.jsdf.types.SDFIncludeType.class")
+                                .build());
+                        break;
+                    default:
+                        typeSpec.addSuperinterface(ClassName.bestGuess("tech.cae.jsdf.types.SDFType"));
                 }
                 if (!(element.getAttributes().isEmpty() && element.getElements().isEmpty())) {
                     typeSpec.addMethod(MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC).build());
@@ -246,6 +260,9 @@ public class Generator {
             return "tech.cae.jsdf.types.CopyData";
         }
         if (element.getReference() != null) {
+            if (nonUnique.contains(element.getReference())) {
+                return pkg + "." + toUpperCamelCase(path.peekLast()) + toUpperCamelCase(element.getReference());
+            }
             return pkg + "." + toUpperCamelCase(element.getReference());
         }
         String out;

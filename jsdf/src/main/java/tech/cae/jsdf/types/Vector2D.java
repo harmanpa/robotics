@@ -7,11 +7,13 @@ package tech.cae.jsdf.types;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  *
  * @author peter
  */
+@Schema(type = "string", pattern = "")
 @JsonSerialize(using = Vector2D.Vector2DSerializer.class)
 @JsonDeserialize(using = Vector2D.Vector2DDeserializer.class)
 public class Vector2D extends SDFArrayType {

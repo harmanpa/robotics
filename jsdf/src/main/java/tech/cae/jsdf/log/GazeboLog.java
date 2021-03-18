@@ -18,8 +18,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import tech.cae.jsdf.SDFIO;
-import tech.cae.jsdf.v1_6.Sdf;
-import tech.cae.jsdf.v1_6.State;
+import tech.cae.jsdf.types.SDFRootType;
+import tech.cae.jsdf.types.SDFStateType;
 
 /**
  *
@@ -65,16 +65,23 @@ public class GazeboLog {
     }
 
     @JsonIgnore
-    public Sdf getSDF() throws IOException {
+    public SDFRootType getSDF() throws IOException {
         if (chunks.isEmpty()) {
             return null;
         }
-        return SDFIO.getMapper().readValue(chunks.get(0).decompress(), Sdf.class);
+        return SDFIO.load(chunks.get(0).decompress());
+    }
+
+    public <S extends SDFRootType> S getSDF(Class<S> type) throws IOException {
+        if (chunks.isEmpty()) {
+            return null;
+        }
+        return SDFIO.getMapper().readValue(chunks.get(0).decompress(), type);
     }
 
     @JsonIgnore
-    public List<State> getStates() throws IOException {
-        List<State> states = new ArrayList<>();
+    public <S extends SDFStateType> List<S> getStates() throws IOException {
+        List<S> states = new ArrayList<>();
         for (LogChunk chunk : getChunks().subList(1, getChunks().size())) {
             states.addAll(SDFIO.getMapper().readValue(chunk.decompress(), LogState.class).getStates());
         }

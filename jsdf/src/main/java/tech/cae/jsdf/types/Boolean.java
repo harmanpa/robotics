@@ -14,12 +14,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.IOException;
 
 /**
  *
  * @author peter
  */
+@Schema(type = "string", pattern = "^(0|1)$")
 @JsonSerialize(using = Boolean.BooleanSerializer.class)
 @JsonDeserialize(using = Boolean.BooleanDeserializer.class)
 public class Boolean {

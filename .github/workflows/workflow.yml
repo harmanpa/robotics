@@ -26,7 +26,7 @@ jobs:
     - name: Deploy javadoc
       uses: maxheld83/ghpages@v0.2.1
       env:
-        BUILD_DIR: jsdf/target/site/apidocs/
+        BUILD_DIR: robotics/robotics-sdf/target/site/apidocs/
         GH_PAT: ${{ secrets.GITHUB_ACCESS_TOKEN }}
     - name: Job Failed Notification
       if: ${{ failure() }}
@@ -34,7 +34,7 @@ jobs:
       env:
         SLACK_CHANNEL: releases
         SLACK_COLOR: '#ff0000'
-        SLACK_TITLE: 'JSDF Build Failed'
+        SLACK_TITLE: 'Robotics Build Failed'
         SLACK_USERNAME: sdfbot
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         MSG_MINIMAL: commit
@@ -43,7 +43,7 @@ jobs:
       uses: rtCamp/action-slack-notify@v2.1.2
       env:
         SLACK_CHANNEL: releases
-        SLACK_TITLE: 'New build of JSDF'
+        SLACK_TITLE: 'New build of Robotics'
         SLACK_USERNAME: sdfbot
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         MSG_MINIMAL: commit

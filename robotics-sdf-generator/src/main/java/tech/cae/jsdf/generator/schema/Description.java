@@ -5,6 +5,7 @@
  */
 package tech.cae.jsdf.generator.schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -13,6 +14,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  *
  * @author peter
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Description {
 
     @JacksonXmlCData
@@ -26,5 +28,4 @@ public class Description {
     public void setDescriptionString(String descriptionString) {
         this.descriptionString = descriptionString;
     }
-
 }

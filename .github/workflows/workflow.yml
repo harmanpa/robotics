@@ -23,11 +23,6 @@ jobs:
       env:
           GITHUB_USERNAME: harmanpa
           GITHUB_PASSWORD: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-    - name: Deploy javadoc
-      uses: maxheld83/ghpages@v0.2.1
-      env:
-        BUILD_DIR: robotics-sdf/target/site/apidocs/
-        GH_PAT: ${{ secrets.GITHUB_ACCESS_TOKEN }}
     - name: Job Failed Notification
       if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.1.2

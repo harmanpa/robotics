@@ -1,0 +1,1 @@
+{"@timestamp":"2022-06-23T13:57:31.301Z", "log.level": "INFO", "message":"[TestNG] Running:\n  /home/futurum/.cache/JetBrains/IdeaIC2022.1/temp-testng-customsuite.xml\n", "ecs.version": "1.2.0","process.thread.name":"main","log.logger":"org.testng.internal.Utils"}

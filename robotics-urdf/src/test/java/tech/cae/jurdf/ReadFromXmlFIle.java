@@ -1,7 +1,6 @@
 package tech.cae.jurdf;
 
-import org.testng.annotations.Test;
-import tech.cae.jurdf.URDFIO;
+import org.junit.Test;
 import tech.cae.jurdf.exceptions.URDFException;
 import tech.cae.robotics.urdf.Robot;
 

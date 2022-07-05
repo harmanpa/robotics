@@ -102,17 +102,6 @@
             </plugin>-->
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>github</id>
-            <name>Github patchwork</name>
-            <url>https://maven.pkg.github.com/harmanpa/configurators</url>
-        </repository>
-    </repositories>
     <dependencies>
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -131,15 +120,10 @@
             <version>3.0.11</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>tech.cae</groupId>
-            <artifactId>configurators</artifactId>
-            <version>${configurators.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

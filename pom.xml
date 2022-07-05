@@ -17,4 +17,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.13.2</junit.version>
     </properties>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Github robotics</name>
+            <url>https://maven.pkg.github.com/harmanpa/robotics</url>
+        </repository>
+    </distributionManagement>
 </project>

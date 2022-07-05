@@ -22,7 +22,7 @@ jobs:
       run: mvn  -B -e -Dmaven.wagon.http.pool=false --settings settings.xml deploy
       env:
           GITHUB_USERNAME: harmanpa
-          GITHUB_PASSWORD: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          GITHUB_PASSWORD: ${{ secrets.GH }}
     - name: Job Failed Notification
       if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.1.2

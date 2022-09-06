@@ -74,6 +74,17 @@
                             <outputDirectory>${project.build.directory}/schema</outputDirectory>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>programExample</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://raw.githubusercontent.com/usnistgov/crcl/master/tools/java/crcl4java/crcl4java-base/src/test/resources/main/programExample.xml</url>
+                            <outputDirectory>${project.build.directory}/examples</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -93,6 +104,11 @@
                                     <artifactId>jackson-xjc-plugin</artifactId>
                                     <version>0.0.2</version>
                                 </plugin>
+                                <plugin>
+                                    <groupId>info.hubbitus</groupId>
+                                    <artifactId>xjc-documentation-annotation-plugin</artifactId>
+                                    <version>1.0.1</version>
+                                </plugin>
                                 <!--                                <plugin>
                                     <groupId>org.jvnet.jaxb2_commons</groupId>
                                     <artifactId>jaxb2-basics</artifactId>
@@ -109,6 +125,7 @@
                             <enableIntrospection>true</enableIntrospection>
                             <args>
                                 <arg>-Xjackson</arg>
+                                <!--<arg>-XPluginDescriptionAnnotation</arg>-->
                                 <!--                                <arg>-XtoString</arg>
                                 <arg>-Xequals</arg>
                                 <arg>-XhashCode</arg>
@@ -132,9 +149,39 @@
             <version>2.13.2</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.github.classgraph</groupId>
             <artifactId>classgraph</artifactId>
             <version>4.8.147</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.istack</groupId>
+            <artifactId>istack-commons-runtime</artifactId>
+            <version>3.0.11</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

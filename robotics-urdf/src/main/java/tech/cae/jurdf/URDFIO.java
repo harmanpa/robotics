@@ -6,6 +6,7 @@ package tech.cae.jurdf;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.xml.stream.XMLInputFactory;
@@ -38,9 +39,10 @@ public class URDFIO {
 
     public static <T> void write(T object, OutputStream os) throws URDFException {
         try {
-            JAXBContext.newInstance(ObjectFactory.class)
-                    .createMarshaller()
-                    .marshal(object, XMLOutputFactory.newInstance().createXMLStreamWriter(os));
+            Marshaller m = JAXBContext.newInstance(ObjectFactory.class)
+                    .createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            m.marshal(object, XMLOutputFactory.newInstance().createXMLStreamWriter(os));
         } catch (JAXBException | XMLStreamException ex) {
             throw new URDFException("Serialization failed", ex);
         }

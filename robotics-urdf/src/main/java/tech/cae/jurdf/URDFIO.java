@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -38,9 +39,10 @@ public class URDFIO {
 
     public static <T> void write(T object, OutputStream os) throws URDFException {
         try {
-            JAXBContext.newInstance(ObjectFactory.class)
-                    .createMarshaller()
-                    .marshal(object, XMLOutputFactory.newInstance().createXMLStreamWriter(os));
+            Marshaller m = JAXBContext.newInstance(ObjectFactory.class)
+                    .createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            m.marshal(object, XMLOutputFactory.newInstance().createXMLStreamWriter(os));
         } catch (JAXBException | XMLStreamException ex) {
             throw new URDFException("Serialization failed", ex);
         }

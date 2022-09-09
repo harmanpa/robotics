@@ -2,12 +2,12 @@ package tech.cae.jurdf;
 
 import org.junit.Test;
 import tech.cae.jurdf.exceptions.URDFException;
-import tech.cae.robotics.urdf.Robot;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import tech.cae.robotics.urdf.Robot;
 
 public class ReadFromXmlFIle {
     @Test

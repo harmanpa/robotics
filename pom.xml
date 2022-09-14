@@ -12,6 +12,7 @@
         <module>robotics-mjcf</module>
         <module>robotics-urdf</module>
         <module>robotics-crcl</module>
+        <module>robotics-ros</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

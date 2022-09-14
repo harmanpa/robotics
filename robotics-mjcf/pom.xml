@@ -82,6 +82,8 @@
                         <configuration>
                             <url>https://raw.githubusercontent.com/deepmind/dm_control/main/dm_control/mjcf/schema.xml</url>
                             <outputDirectory>${project.build.directory}/schema</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <skipCache>true</skipCache>
                         </configuration>
                     </execution>
                     <execution>

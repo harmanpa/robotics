@@ -34,6 +34,14 @@ public class RosPackage {
         return this;
     }
 
+    public RosPackage addRViz() {
+        File launchDir = new File(packageDirectory, "launch");
+        launchDir.mkdir();
+        File rvizConfigFile = new File(launchDir, packageDirectory.getName() + ".rviz");
+        rvizConfigFile.createNewFile();
+        return addRViz(rvizConfigFile);
+    }
+
     public RosPackage addRViz(File rvizConfigFile) {
         this.addNode("rviz", "rviz", "rviz", "-d", this.launchFile.addArg("rviz", rvizConfigFile));
         return this;

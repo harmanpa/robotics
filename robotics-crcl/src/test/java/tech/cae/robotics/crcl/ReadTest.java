@@ -42,7 +42,7 @@ public class ReadTest {
     public void test() throws CRCLException, IOException {
         try ( FileInputStream fis = new FileInputStream(file)) {
             CRCLProgram program = CRCLIO.readProgram(fis);
-            for(MiddleCommandType command : program.getMiddleCommands()) {
+            for (MiddleCommandType command : program.getMiddleCommands()) {
                 System.out.println(new ObjectMapper().writeValueAsString(command));
             }
         }

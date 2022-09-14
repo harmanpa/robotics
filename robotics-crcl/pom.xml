@@ -132,54 +132,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-<!--            <plugin>
-                <groupId>org.jvnet.jaxb2.maven2</groupId>
-                <artifactId>maven-jaxb23-plugin</artifactId>
-                <version>0.15.1</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <plugins>
-                                <plugin>
-                                    <groupId>io.fares.bind.xjc.plugins</groupId>
-                                    <artifactId>jackson-xjc-plugin</artifactId>
-                                    <version>0.0.2</version>
-                                </plugin>
-                                <plugin>
-                                    <groupId>info.hubbitus</groupId>
-                                    <artifactId>xjc-documentation-annotation-plugin</artifactId>
-                                    <version>1.0.1</version>
-                                </plugin>
-                                                                <plugin>
-                                    <groupId>org.jvnet.jaxb2_commons</groupId>
-                                    <artifactId>jaxb2-basics</artifactId>
-                                    <version>0.13.1</version>
-                                </plugin>
-                            </plugins>
-                            <generatePackage>tech.cae.robotics.crcl</generatePackage>
-                            <schemaDirectory>${project.basedir}/target/schema</schemaDirectory>
-                            <bindingDirectory>${project.basedir}/src/test/resources</bindingDirectory>
-                            <generateDirectory>${project.basedir}/target/generated-sources/xjc</generateDirectory>
-                            <episode>false</episode>
-                            <strict>false</strict>
-                            <extension>true</extension>
-                            <enableIntrospection>true</enableIntrospection>
-                            <args>
-                                <arg>-Xjackson</arg>
-                                <arg>-XPluginDescriptionAnnotation</arg>
-                                                                <arg>-XtoString</arg>
-                                <arg>-Xequals</arg>
-                                <arg>-XhashCode</arg>
-                                <arg>-Xcopyable</arg>
-                            </args>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
         </plugins>
     </build>
     <dependencies>
@@ -222,11 +174,5 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>com.sun.istack</groupId>
-            <artifactId>istack-commons-runtime</artifactId>
-            <version>3.0.11</version>
-            <scope>test</scope>
-        </dependency>-->
     </dependencies>
 </project>

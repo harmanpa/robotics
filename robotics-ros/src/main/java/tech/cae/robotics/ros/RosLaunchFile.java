@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.stream.Stream;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
 import tech.cae.robotics.ros.exceptions.RosException;
 import tech.cae.robotics.ros.launch.Arg;
 import tech.cae.robotics.ros.launch.Launch;
@@ -67,8 +65,8 @@ public class RosLaunchFile {
             Marshaller m = JAXBContext.newInstance(ObjectFactory.class)
                     .createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            m.marshal(launch, XMLOutputFactory.newInstance().createXMLStreamWriter(fos));
-        } catch (JAXBException | XMLStreamException ex) {
+            m.marshal(launch, fos);
+        } catch (JAXBException ex) {
             throw new RosException("Serialization failed", ex);
         }
     }

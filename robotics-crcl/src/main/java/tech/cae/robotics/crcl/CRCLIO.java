@@ -10,7 +10,6 @@ import jakarta.xml.bind.Marshaller;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import tech.cae.robotics.crcl.exceptions.CRCLException;
 
@@ -40,8 +39,8 @@ public class CRCLIO {
             Marshaller m = JAXBContext.newInstance(ObjectFactory.class)
                     .createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            m.marshal(object, XMLOutputFactory.newInstance().createXMLStreamWriter(os));
-        } catch (JAXBException | XMLStreamException ex) {
+            m.marshal(object, os);
+        } catch (JAXBException ex) {
             throw new CRCLException("Serialization failed", ex);
         }
     }

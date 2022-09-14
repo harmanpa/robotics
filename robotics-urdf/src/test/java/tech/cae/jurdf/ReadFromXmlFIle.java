@@ -10,10 +10,11 @@ import java.nio.file.Paths;
 import tech.cae.robotics.urdf.Robot;
 
 public class ReadFromXmlFIle {
+
     @Test
     public void testRead() {
         String filePath = "/home/futurum/Desktop/URDF_Files/qdh.urdf";
-        try (InputStream inputstream = Files.newInputStream(Paths.get(filePath))) {
+        try ( InputStream inputstream = Files.newInputStream(Paths.get(filePath))) {
             Robot robot = URDFIO.readRobot(inputstream);
             System.out.println(robot.getName());
             System.out.println(robot.getVersion());

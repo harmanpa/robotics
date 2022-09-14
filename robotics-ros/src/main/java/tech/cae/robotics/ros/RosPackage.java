@@ -34,7 +34,7 @@ public class RosPackage {
         return this;
     }
 
-    public RosPackage addRViz() {
+    public RosPackage addRViz() throws IOException {
         File launchDir = new File(packageDirectory, "launch");
         launchDir.mkdir();
         File rvizConfigFile = new File(launchDir, packageDirectory.getName() + ".rviz");

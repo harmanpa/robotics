@@ -19,27 +19,28 @@ import tech.cae.robotics.ros.pkg.ObjectFactory;
  * @author peter
  */
 public class RosPackageFile {
-
+    
     private final File packageDirectory;
     private final tech.cae.robotics.ros.pkg.Package pkg;
-
+    
     public RosPackageFile(File packageDirectory) {
         this.packageDirectory = packageDirectory;
         ObjectFactory factory = new ObjectFactory();
         this.pkg = factory.createPackage();
         this.pkg.setExport(factory.createExportType());
+        this.pkg.setName(packageDirectory.getName());
         DependencyType catkinDependency = factory.createDependencyType();
         catkinDependency.setValue("catkin");
         this.pkg.getBuildDependOrBuildExportDependOrBuildtoolDepend().add(factory.createPackageBuildtoolDepend(catkinDependency));
     }
-
+    
     public void addNode(String pkg) {
         ObjectFactory factory = new ObjectFactory();
         DependencyType pkgDependency = factory.createDependencyType();
         pkgDependency.setValue(pkg);
         this.pkg.getBuildDependOrBuildExportDependOrBuildtoolDepend().add(factory.createPackageExecDepend(pkgDependency));
     }
-
+    
     public void write() throws IOException, RosException {
         try ( FileOutputStream fos = new FileOutputStream(new File(packageDirectory, "package.xml"))) {
             Marshaller m = JAXBContext.newInstance(ObjectFactory.class)

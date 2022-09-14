@@ -55,7 +55,7 @@ public class RosLaunchFile {
     }
 
     public String relativize(File f) {
-        return "$(find " + packageDirectory.getName() + ")/" + packageDirectory.toPath().relativize(f.toPath());
+        return "$(find " + packageDirectory.getName() + ")/" + packageDirectory.toPath().relativize(f.toPath()).toString().replace('\\', '/');
     }
 
     public void write() throws IOException, RosException {

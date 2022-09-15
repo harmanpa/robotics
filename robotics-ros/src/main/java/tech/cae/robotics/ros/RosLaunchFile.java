@@ -42,6 +42,7 @@ public class RosLaunchFile {
     public String addArg(String name, File file) {
         Arg arg = new ObjectFactory().createArg();
         arg.setDefault(relativize(file));
+        arg.setName(name);
         this.launch.getNodeOrMachineOrInclude().add(arg);
         return "$(arg " + name + ")";
     }

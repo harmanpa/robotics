@@ -27,6 +27,10 @@ public class RosPackage {
         this.launchFile = new RosLaunchFile(packageDirectory);
     }
 
+    public void setVersion(String version) {
+        this.packageFile.setVersion(version);
+    }
+
     public RosPackage addURDF(File urdfFile) {
         this.launchFile.addParam("robot_description", urdfFile);
         this.addNode("robot_state_publisher", "robot_state_publisher", "robot_state_publisher");

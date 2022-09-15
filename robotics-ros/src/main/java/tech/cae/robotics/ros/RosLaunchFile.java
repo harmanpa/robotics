@@ -23,28 +23,29 @@ import tech.cae.robotics.ros.launch.Param;
  * @author peter
  */
 public class RosLaunchFile {
-
+    
     private final File packageDirectory;
     private final Launch launch;
-
+    
     public RosLaunchFile(File packageDirectory) {
         this.packageDirectory = packageDirectory;
         this.launch = new ObjectFactory().createLaunch();
     }
-
+    
     public void addParam(String name, File file) {
         Param param = new ObjectFactory().createParam();
+        param.setName(name);
         param.setTextfile(relativize(file));
         this.launch.getNodeOrMachineOrInclude().add(param);
     }
-
+    
     public String addArg(String name, File file) {
         Arg arg = new ObjectFactory().createArg();
         arg.setDefault(relativize(file));
         this.launch.getNodeOrMachineOrInclude().add(arg);
         return "$(arg " + name + ")";
     }
-
+    
     public void addNode(String name, String pkg, String type, String... args) {
         Node node = new ObjectFactory().createNode();
         node.setName(name);
@@ -53,11 +54,11 @@ public class RosLaunchFile {
         Stream.of(args).reduce((a, b) -> a + " " + b).ifPresent(argString -> node.setArgs(argString));
         this.launch.getNodeOrMachineOrInclude().add(node);
     }
-
+    
     public String relativize(File f) {
         return "$(find " + packageDirectory.getName() + ")/" + packageDirectory.toPath().relativize(f.toPath()).toString().replace('\\', '/');
     }
-
+    
     public void write() throws IOException, RosException {
         File launchDirectory = new File(packageDirectory, "launch");
         launchDirectory.mkdir();

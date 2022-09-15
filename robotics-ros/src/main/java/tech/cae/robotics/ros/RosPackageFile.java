@@ -33,6 +33,7 @@ public class RosPackageFile {
         this.pkg.setExport(factory.createExportType());
         this.pkg.setName(packageDirectory.getName());
         this.pkg.setVersion("0.0.0");
+        this.pkg.setFormat("2");
         this.pkg.setDescription(factory.createDescriptionType());
         DependencyType catkinDependency = factory.createDependencyType();
         catkinDependency.setValue("catkin");
@@ -83,6 +84,11 @@ public class RosPackageFile {
             addMaintainer("Anonymous", "anonymous@nowhere.tld");
             addedMaintainer = true;
         }
+        boolean addedDescription = false;
+        if (this.pkg.getDescription().getContent().isEmpty()) {
+            addDescription(pkg.getName() + " " + pkg.getVersion());
+            addedDescription = true;
+        }
         boolean addedLicense = false;
         if (this.pkg.getLicense().isEmpty()) {
             addLicense("None");
@@ -101,6 +107,9 @@ public class RosPackageFile {
         }
         if (addedLicense) {
             this.pkg.getLicense().clear();
+        }
+        if (addedDescription) {
+            this.pkg.getDescription().getContent().clear();
         }
     }
 }

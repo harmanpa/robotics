@@ -12,7 +12,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import tech.cae.robotics.ros.exceptions.RosException;
 import tech.cae.robotics.ros.pkg.DependencyType;
+import tech.cae.robotics.ros.pkg.LicenseType;
 import tech.cae.robotics.ros.pkg.ObjectFactory;
+import tech.cae.robotics.ros.pkg.PersonWithEmailType;
+import tech.cae.robotics.ros.pkg.PersonWithOptionalEmailType;
 
 /**
  *
@@ -30,6 +33,7 @@ public class RosPackageFile {
         this.pkg.setExport(factory.createExportType());
         this.pkg.setName(packageDirectory.getName());
         this.pkg.setVersion("0.0.0");
+        this.pkg.setDescription(factory.createDescriptionType());
         DependencyType catkinDependency = factory.createDependencyType();
         catkinDependency.setValue("catkin");
         this.pkg.getBuildDependOrBuildExportDependOrBuildtoolDepend().add(factory.createPackageBuildtoolDepend(catkinDependency));
@@ -37,6 +41,33 @@ public class RosPackageFile {
 
     public void setVersion(String version) {
         this.pkg.setVersion(version);
+    }
+
+    public void addLicense(String license) {
+        ObjectFactory factory = new ObjectFactory();
+        LicenseType licenseObject = factory.createLicenseType();
+        licenseObject.setValue(license);
+        this.pkg.getLicense().add(licenseObject);
+    }
+
+    public void addDescription(String version) {
+        this.pkg.getDescription().getContent().add(version);
+    }
+
+    public void addMaintainer(String name, String email) {
+        ObjectFactory factory = new ObjectFactory();
+        PersonWithEmailType person = factory.createPersonWithEmailType();
+        person.setValue(name);
+        person.setEmail(email);
+        this.pkg.getMaintainer().add(person);
+    }
+
+    public void addAuthor(String name, String email) {
+        ObjectFactory factory = new ObjectFactory();
+        PersonWithOptionalEmailType person = factory.createPersonWithOptionalEmailType();
+        person.setValue(name);
+        person.setEmail(email);
+        this.pkg.getAuthor().add(person);
     }
 
     public void addNode(String pkg) {
@@ -47,6 +78,16 @@ public class RosPackageFile {
     }
 
     public void write() throws IOException, RosException {
+        boolean addedMaintainer = false;
+        if (this.pkg.getMaintainer().isEmpty()) {
+            addMaintainer("Anonymous", "anonymous@nowhere.tld");
+            addedMaintainer = true;
+        }
+        boolean addedLicense = false;
+        if (this.pkg.getLicense().isEmpty()) {
+            addLicense("None");
+            addedLicense = true;
+        }
         try ( FileOutputStream fos = new FileOutputStream(new File(packageDirectory, "package.xml"))) {
             Marshaller m = JAXBContext.newInstance(ObjectFactory.class)
                     .createMarshaller();
@@ -54,6 +95,12 @@ public class RosPackageFile {
             m.marshal(pkg, fos);
         } catch (JAXBException ex) {
             throw new RosException("Serialization failed", ex);
+        }
+        if (addedMaintainer) {
+            this.pkg.getMaintainer().clear();
+        }
+        if (addedLicense) {
+            this.pkg.getLicense().clear();
         }
     }
 }

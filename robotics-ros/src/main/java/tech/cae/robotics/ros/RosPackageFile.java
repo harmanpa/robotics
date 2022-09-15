@@ -29,7 +29,7 @@ public class RosPackageFile {
         this.pkg = factory.createPackage();
         this.pkg.setExport(factory.createExportType());
         this.pkg.setName(packageDirectory.getName());
-        this.pkg.setVersion("0");
+        this.pkg.setVersion("0.0.0");
         DependencyType catkinDependency = factory.createDependencyType();
         catkinDependency.setValue("catkin");
         this.pkg.getBuildDependOrBuildExportDependOrBuildtoolDepend().add(factory.createPackageBuildtoolDepend(catkinDependency));

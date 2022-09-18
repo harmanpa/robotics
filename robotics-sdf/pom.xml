@@ -101,7 +101,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <mainClass>tech.cae.jsdf.generator.Generator</mainClass>
+                            <mainClass>tech.cae.robotics.sdf.generator.Generator</mainClass>
                             <classpathScope>test</classpathScope>
                             <arguments>
                                 <argument>${basedir}/target/sdformat/sdformat-main/sdf/1.5</argument>
@@ -117,7 +117,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <mainClass>tech.cae.jsdf.generator.Generator</mainClass>
+                            <mainClass>tech.cae.robotics.sdf.generator.Generator</mainClass>
                             <classpathScope>test</classpathScope>                            
                             <arguments>
                                 <argument>${basedir}/target/sdformat/sdformat-main/sdf/1.6</argument>
@@ -133,7 +133,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <mainClass>tech.cae.jsdf.generator.Generator</mainClass>
+                            <mainClass>tech.cae.robotics.sdf.generator.Generator</mainClass>
                             <classpathScope>test</classpathScope>
                             <arguments>
                                 <argument>${basedir}/target/sdformat/sdformat-main/sdf/1.7</argument>
@@ -149,7 +149,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <mainClass>tech.cae.jsdf.generator.Generator</mainClass>
+                            <mainClass>tech.cae.robotics.sdf.generator.Generator</mainClass>
                             <classpathScope>test</classpathScope>
                             <arguments>
                                 <argument>${basedir}/target/sdformat/sdformat-main/sdf/1.8</argument>
@@ -165,7 +165,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <mainClass>tech.cae.jsdf.generator.Generator</mainClass>
+                            <mainClass>tech.cae.robotics.sdf.generator.Generator</mainClass>
                             <classpathScope>test</classpathScope>
                             <arguments>
                                 <argument>${basedir}/target/sdformat/sdformat-main/sdf/1.9</argument>

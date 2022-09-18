@@ -112,7 +112,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <mainClass>tech.cae.jmjcf.generator.Generator</mainClass>
+                            <mainClass>tech.cae.robotics.mjcf.generator.Generator</mainClass>
                             <classpathScope>test</classpathScope>
                             <arguments>
                                 <argument>${basedir}/target/schema/schema.xml</argument>

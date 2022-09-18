@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import tech.cae.robotics.ros.exceptions.RosException;
 import tech.cae.robotics.urdf.Link;
 
 /**
@@ -47,7 +48,7 @@ public class RVizConfigFile {
         }
     }
     
-    Map<String, Object> getOrCreateMap(String[] path) {
+    Map<String, Object> getOrCreateMap(String[] path) throws RosException {
         Map<String, Object> parent;
         switch(path.length) {
             case 0:
@@ -61,10 +62,13 @@ public class RVizConfigFile {
         if(!parent.containsKey(path[path.length-1])) {
             parent.put(path[path.length-1], new HashMap<String, Object>());
         }
-        return (Map<String, Object>)parent.get(path[path.length-1]);
+        if(parent.get(path[path.length-1]) instanceof Map) {
+            return (Map<String, Object>)parent.get(path[path.length-1]);
+        }
+        throw new RosException("Path exists but is not an object: " + Arrays.toString(path));
     }
     
-    List<Object> getOrCreateList(String[] path) {
+    List<Object> getOrCreateList(String[] path) throws RosException {
         Map<String, Object> parent = getOrCreateMap(Arrays.copyOfRange(path, 0, path.length-1));
         if(!parent.containsKey(path[path.length-1])) {
             parent.put(path[path.length-1], new ArrayList<Object>());
@@ -72,7 +76,7 @@ public class RVizConfigFile {
         return (List<Object>)parent.get(path[path.length-1]);
     }
     
-    public void set(String[] path, Object value) {
+    public void set(String[] path, Object value) throws RosException {
         if(value instanceof RVizConfigFile) {
             set(path, ((RVizConfigFile)value).data);
             return;
@@ -81,7 +85,7 @@ public class RVizConfigFile {
                 .put(path[path.length-1], value);
     }
     
-    public void add(String[] path, Object value) {
+    public void add(String[] path, Object value) throws RosException {
         if(value instanceof RVizConfigFile) {
             add(path, ((RVizConfigFile)value).data);
             return;
@@ -89,12 +93,12 @@ public class RVizConfigFile {
         getOrCreateList(path).add(value);
     }
     
-    public Object get(String[] path) {
+    public Object get(String[] path) throws RosException {
         return getOrCreateMap(Arrays.copyOfRange(path, 0, path.length-1))
                 .get(path[path.length-1]);        
     }
     
-    public void forRobot(Robot robot, String baseLink) {        
+    public void forRobot(Robot robot, String baseLink) throws RosException {        
         String robotName = robot.getName();
         if(baseLink != null) {
             set(new String[]{"Visualization Manager", "Global Options", "Fixed Frame"}, baseLink);
@@ -120,10 +124,13 @@ public class RVizConfigFile {
                 .filter(jlm -> jlm instanceof Link)
                 .map(jlm -> (Link)jlm)
                 .forEach(link -> {
-                    display.set(new String[]{"Links", "Link Tree Style", link.getName(), "Alpha"}, 1);
-                    display.set(new String[]{"Links", "Link Tree Style", link.getName(), "Show Axes"}, false);
-                    display.set(new String[]{"Links", "Link Tree Style", link.getName(), "Show Trail"}, false);
-                    display.set(new String[]{"Links", "Link Tree Style", link.getName(), "Value"}, true);
+                    try {
+                        display.set(new String[]{"Links", link.getName(), "Alpha"}, 1);
+                        display.set(new String[]{"Links", link.getName(), "Show Axes"}, false);
+                        display.set(new String[]{"Links", link.getName(), "Show Trail"}, false);
+                        display.set(new String[]{"Links", link.getName(), "Value"}, true);
+                    } catch (RosException ex) {
+                    }
                 });
         add(new String[]{"Visualization Manager", "Displays"}, display);
     }

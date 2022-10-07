@@ -31,8 +31,6 @@ import java.io.OutputStream;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import tech.cae.robotics.urdf.exceptions.URDFException;
-import tech.cae.robotics.urdf.ObjectFactory;
-import tech.cae.robotics.urdf.Robot;
 
 /**
  *

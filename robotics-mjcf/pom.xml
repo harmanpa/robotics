@@ -96,6 +96,8 @@
                             <url>https://github.com/deepmind/mujoco/archive/refs/heads/main.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}/examples</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <skipCache>true</skipCache>
                         </configuration>
                     </execution>
                 </executions>

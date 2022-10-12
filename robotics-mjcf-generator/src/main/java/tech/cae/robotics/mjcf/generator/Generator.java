@@ -87,6 +87,8 @@ public class Generator {
         outDirectory.mkdir();
         XmlMapper xmlMapper = new XmlMapper();
         Element mujoco = xmlMapper.readValue(schemaFile, Element.class);
+        Element mujocoX = xmlMapper.readValue(getClass().getClassLoader().getResourceAsStream("extras.xml"), Element.class);
+        mujoco = mujoco.merge(mujocoX);
         Set<String> nonUniqueNames = new HashSet<>();
         findNonUniqueNames(mujoco, nonUniqueNames, new HashMap<>());
         handleElement(mujoco, new ArrayDeque<>(), nonUniqueNames);

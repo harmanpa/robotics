@@ -25,9 +25,12 @@ package tech.cae.robotics.mjcf.generator.schema;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -132,4 +135,35 @@ public class Element extends AbstractElementOrAttribute {
         return Objects.equals(this.elements, other.elements);
     }
 
+    public Element merge(Element other) {
+        Element merged = new Element();
+        merged.setName(other.getName());
+        merged.setNamespace(other.getNamespace());
+        merged.setOnDemand(other.isOnDemand());
+        merged.setRecursive(other.isRecursive());
+        merged.setRepeated(other.isRepeated());
+        Map<String, Element> elementsA = getElements().stream().collect(Collectors.toMap(el -> el.getName(), el -> el));
+        Map<String, Element> elementsB = other.getElements().stream().collect(Collectors.toMap(el -> el.getName(), el -> el));
+        Sets.union(elementsA.keySet(), elementsB.keySet()).stream().map(name -> {
+            if (elementsA.containsKey(name)) {
+                if (elementsB.containsKey(name)) {
+                    return elementsA.get(name).merge(elementsB.get(name));
+                } else {
+                    return elementsA.get(name);
+                }
+            } else {
+                return elementsB.get(name);
+            }
+        }).forEach(el -> merged.getElements().add(el));
+        Map<String, Attribute> attributesA = getAttributes().stream().collect(Collectors.toMap(el -> el.getName(), el -> el));
+        Map<String, Attribute> attributesB = other.getAttributes().stream().collect(Collectors.toMap(el -> el.getName(), el -> el));
+        Sets.union(attributesA.keySet(), attributesB.keySet()).stream().map(name -> {
+            if (attributesA.containsKey(name)) {
+                return attributesA.get(name);
+            } else {
+                return attributesB.get(name);
+            }
+        }).forEach(el -> merged.getAttributes().add(el));
+        return merged;
+    }
 }

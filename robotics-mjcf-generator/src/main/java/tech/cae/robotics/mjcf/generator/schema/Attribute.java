@@ -176,5 +176,4 @@ public class Attribute extends AbstractElementOrAttribute {
         }
         return Objects.equals(this.conflictBehaviour, other.conflictBehaviour);
     }
-
 }

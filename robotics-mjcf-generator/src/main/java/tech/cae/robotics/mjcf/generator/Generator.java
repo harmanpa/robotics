@@ -153,9 +153,20 @@ public class Generator {
                 }
             }
             if(element.isRecursive()) {
-                    FieldSpec.Builder elementField = FieldSpec.builder(className, toCamelCase(element.getName()), Modifier.PRIVATE)
+                FieldSpec.Builder elementField;
+                    if (element.isRepeated()) {
+                        elementField = FieldSpec.builder(ParameterizedTypeName.get(ClassName.get(List.class), className),
+                                toCamelCase(element.getName()), Modifier.PRIVATE)
+                                .addAnnotation(AnnotationSpec.builder(JacksonXmlElementWrapper.class)
+                                        .addMember("useWrapping", "false").build())
                                 .addAnnotation(AnnotationSpec.builder(JacksonXmlProperty.class)
                                         .addMember("localName", "\"" + element.getName() + "\"").addMember("isAttribute", "false").build());
+                        elementField.initializer("new $T<>()", ArrayList.class);
+                    } else {
+                        elementField = FieldSpec.builder(className, toCamelCase(element.getName()), Modifier.PRIVATE)
+                                .addAnnotation(AnnotationSpec.builder(JacksonXmlProperty.class)
+                                        .addMember("localName", "\"" + element.getName() + "\"").addMember("isAttribute", "false").build());
+                    }
                     typeSpec.addField(elementField.build());
             }
             // Add include element

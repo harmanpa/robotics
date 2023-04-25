@@ -6,7 +6,7 @@
     <parent>
         <groupId>tech.cae</groupId>
         <artifactId>robotics</artifactId>
-        <version>0.0.0-77fb88e7-java11</version>
+        <version>0.0.0-d3dbf726-usdtest</version>
     </parent>
 
     <artifactId>robotics-usd</artifactId>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>tech.cae</groupId>
             <artifactId>robotics-urdf</artifactId>
-            <version>0.0.0-77fb88e7-java11</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

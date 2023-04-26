@@ -14,7 +14,7 @@ public class USDRobot {
 
     private final Interpreter interpreter = new SubInterpreter();
 
-    public static File tempDir = new File(System.getProperty("user.dir") + "/target/tempUSDDir");
+    public static File tempDir = new File("temp.py");
 
     private Mass mass;
     private Inertia inertia;
@@ -36,17 +36,30 @@ public class USDRobot {
     protected String physicsScene;
     protected String meshAttribute;
     protected String joint;
+    protected String parentJoint;
     protected String sphereAttribute;
     //Prim is rigid body ???
     protected String defaultPrim;
     protected String childPrim;
+    protected String lowerLimit;
+    protected String upperLimit;
+    protected String limit;
+
+    public String importSetUp(){
+        return "from pxr import Usd, Sdf, UsdGeom, UsdPhysics, Gf\n";
+    }
+    public String importOmni(){ return
+            "import omni\n";}
+    public String pyPhysxImport(){
+        return  "from pyphysx import * \n";
+    }
 
     public void setDefaultPrim(String defaultPrim) {
         this.defaultPrim = defaultPrim;
     }
 
     public String getDefaultPrim() {
-        return this.defaultPrim = "defaultPrim = " + this.stage + ".GetPrimAtPath('/" + this.defaultPrim + "')\n" + this.stage + ".SetDefaultPrim(defaultPrim)\n";
+        return "defaultPrim = " + this.stage + ".GetPrimAtPath('/" + this.defaultPrim + "')\n" + this.stage + ".SetDefaultPrim(defaultPrim)\n";
     }
 
     public void setChildPrim(String childPrim) {
@@ -89,7 +102,8 @@ public class USDRobot {
     }
 
     public String getJoint() {
-        return "joint = " + this.stage + ".DefinePrim(\"/" + this.joint + "\", \"Joint\")\n";
+        return "joint = UsdPhysics.PrismaticJoint.Define(" + this.stage + ", \"/" + this.parentJoint + "/" + this.joint + "\")\n" + "joint.CreateAxisAttr(\"XYZ\")\n"
+                + "joint.CreateLocalPos0Attr().Set(Gf.Vec3f(0.0, 0.0, 0.0))\n";
     }
 
     public void setSphereAttribute(String sphereAttribute) {
@@ -119,5 +133,37 @@ public class USDRobot {
 
     public String saveStage(){
         return this.stage + ".Save()";
+    }
+
+    public String getParentJoint() {
+        return parentJoint;
+    }
+
+    public void setParentJoint(String parentJoint) {
+        this.parentJoint = parentJoint;
+    }
+
+    public String getLimit() {
+        return "";
+    }
+
+    public void setLimit(String limit) {
+        this.limit = limit;
+    }
+
+    public String getLowerLimit() {
+        return lowerLimit;
+    }
+
+    public void setLowerLimit(String lowerLimit) {
+        this.lowerLimit = lowerLimit;
+    }
+
+    public String getUpperLimit() {
+        return upperLimit;
+    }
+
+    public void setUpperLimit(String upperLimit) {
+        this.upperLimit = upperLimit;
     }
 }

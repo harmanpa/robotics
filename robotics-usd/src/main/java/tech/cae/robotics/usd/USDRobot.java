@@ -4,6 +4,8 @@ import jep.Interpreter;
 import jep.SubInterpreter;
 import tech.cae.robotics.urdf.*;
 
+import java.io.File;
+
 public class USDRobot {
 
     // should have variables with python actions assign:
@@ -11,6 +13,8 @@ public class USDRobot {
     // String stage;
 
     private final Interpreter interpreter = new SubInterpreter();
+
+    public static File tempDir = new File(System.getProperty("user.dir") + "/target/tempUSDDir");
 
     private Mass mass;
     private Inertia inertia;
@@ -42,7 +46,7 @@ public class USDRobot {
     }
 
     public String getDefaultPrim() {
-        return this.defaultPrim = "defaultPrim = " + this.stage + ".GetPrimAtPath('/defaultPrim')\n" + this.stage + ".SetDefaultPrim(defaultPrim)\n";
+        return this.defaultPrim = "defaultPrim = " + this.stage + ".GetPrimAtPath('/" + this.defaultPrim + "')\n" + this.stage + ".SetDefaultPrim(defaultPrim)\n";
     }
 
     public void setChildPrim(String childPrim) {
@@ -50,7 +54,7 @@ public class USDRobot {
     }
 
     public String getChildPrim() {
-        return this.childPrim = "childPrim = " + this.stage + ".DefinePrim(\"/" + this.defaultPrim + "/" + this.childPrim + "\")";
+        return "childPrim = " + this.stage + ".DefinePrim(\"/" + this.defaultPrim + "/" + this.childPrim + "\")\n";
     }
 
     protected String inertiaAttribute;
@@ -61,7 +65,7 @@ public class USDRobot {
     }
 
     public String getStage() {
-        return this.stage = "stage = Usd.Stage.CreateNew(\"" + this.stage + ".usda\")\n";
+        return "stage = Usd.Stage.CreateNew(\"" + this.stage + ".usda\")\n";
     }
 
     public void setPhysicsScene(String physicsScene) {
@@ -69,7 +73,7 @@ public class USDRobot {
     }
 
     public String getPhysicsScene() {
-        return this.physicsScene = "UsdPhysics.Scene.Define(" + this.stage + ", Sdf.Path(\"/PhysicsScene\"))\n";
+        return "UsdPhysics.Scene.Define(" + this.stage + ", Sdf.Path(\"/PhysicsScene\"))\n";
     }
 
     public void setMesh(String meshAttribute) {
@@ -77,7 +81,7 @@ public class USDRobot {
     }
 
     public String getMesh() {
-        return this.meshAttribute = this.mesh.getFilename() + " = UsdGeom.Mesh.Define(" + this.stage + ", \"" + this.meshPath + "\")\n";
+        return "mesh = UsdGeom.Mesh.Define(" + this.stage + ", \"" + this.meshPath + "\")\n";
     }
 
     public void setJoint(String joint) {
@@ -85,7 +89,7 @@ public class USDRobot {
     }
 
     public String getJoint() {
-        return this.joint = "joint = " + this.stage + ".DefinePrim(\"/joint\", \"Joint\")\n";
+        return "joint = " + this.stage + ".DefinePrim(\"/" + this.joint + "\", \"Joint\")\n";
     }
 
     public void setSphereAttribute(String sphereAttribute) {
@@ -93,7 +97,7 @@ public class USDRobot {
     }
 
     public String setSphereAttribute() {
-        return this.sphereAttribute = "sphere = " + stage + ".DefinePrim(\"/sphere\", \"Sphere\")\n";
+        return "sphere = " + this.stage + ".DefinePrim(\"/" + this.sphereAttribute + "\", \"Sphere\")\n";
     }
 
     public String getInertiaAttribute() {
@@ -109,7 +113,11 @@ public class USDRobot {
     }
 
     public String getMassAttribute() {
-        return this.massAttribute = "mass = UsdPhysics.MassAPI.Apply(" + this.sphere +")\n"
+        return "mass = UsdPhysics.MassAPI.Apply(" + this.sphereAttribute +")\n"
                + "mass.CreateMassAttr((" + this.mass.getValue() + "))\n";
+    }
+
+    public String saveStage(){
+        return this.stage + ".Save()";
     }
 }

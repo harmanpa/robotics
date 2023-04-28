@@ -44,6 +44,8 @@ public class USDRobot {
     protected String lowerLimit;
     protected String upperLimit;
     protected String limit;
+    protected String XYZAxis;
+    protected String RPYAxis;
 
     public String importSetUp(){
         return "from pxr import Usd, Sdf, UsdGeom, UsdPhysics, Gf\n";
@@ -165,5 +167,21 @@ public class USDRobot {
 
     public void setUpperLimit(String upperLimit) {
         this.upperLimit = upperLimit;
+    }
+
+    public String getXYZAxis() {
+        return XYZAxis;
+    }
+
+    public void setXYZAxis(String XYZAxis) {
+        this.XYZAxis = XYZAxis;
+    }
+
+    public String getRPYAxis() {
+        return RPYAxis;
+    }
+
+    public void setRPYAxis(String RPYAxis) {
+        this.RPYAxis = RPYAxis;
     }
 }

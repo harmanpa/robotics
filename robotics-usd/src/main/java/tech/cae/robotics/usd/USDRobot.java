@@ -7,29 +7,9 @@ import tech.cae.robotics.urdf.*;
 import java.io.File;
 
 public class USDRobot {
-
-    // should have variables with python actions assign:
-    // @SomeAnnotation("stage = Usd.Stage.CreateNew("fileName.usd")")
-    // String stage;
-
     private final Interpreter interpreter = new SubInterpreter();
 
     public static File tempDir = new File("temp.py");
-
-    private Mass mass;
-    private Inertia inertia;
-    private Sphere sphere;
-    private Mesh mesh;
-    private String meshPath;
-
-    public USDRobot(Mass mass, Inertia inertia, Sphere sphere, Mesh mesh) {
-        this.mass = mass;
-        this.inertia = inertia;
-        this.sphere = sphere;
-        this.mesh = mesh;
-        Double[] inertiaCoordinatesArray = new Double[]{inertia.getIxx(), inertia.getIxy(),
-                inertia.getIxz(), inertia.getIyy(), inertia.getIyz(), inertia.getIzz()};
-    }
 
     public USDRobot(){};
     protected String physicsScene;
@@ -41,11 +21,12 @@ public class USDRobot {
     protected String childPrim;
     protected String lowerLimit;
     protected String upperLimit;
-    protected String limit;
     protected String XYZAxis;
     protected String RPYAxis;
     protected String inertiaAttribute;
     protected String massAttribute;
+    protected Double[] inertiaCoordinatesArray;
+    protected String origin;
 
 
     public void setChildPrim(String childPrim) {
@@ -80,8 +61,8 @@ public class USDRobot {
         return joint;
     }
 
-    public void setSphereAttribute(Sphere sphere) {
-        this.sphereAttribute = String.valueOf(sphere.getRadius());
+    public void setSphereAttribute() {
+        this.sphereAttribute = String.valueOf(0.02);
     }
 
     public String getSphereAttribute() {
@@ -96,11 +77,11 @@ public class USDRobot {
         this.inertiaAttribute = inertiaAttribute;
     }
 
-    public void setMassAttribute(Mass mass) {
+    public void setMass(Mass mass) {
         this.massAttribute = String.valueOf(mass.getValue());
     }
 
-    public String getMassAttribute() {
+    public String getMass() {
         return massAttribute;
     }
 
@@ -110,14 +91,6 @@ public class USDRobot {
 
     public void setParentJoint(String parentJoint) {
         this.parentJoint = parentJoint;
-    }
-
-    public String getLimit() {
-        return limit;
-    }
-
-    public void setLimit(String limit) {
-        this.limit = limit;
     }
 
     public String getLowerLimit() {
@@ -150,5 +123,22 @@ public class USDRobot {
 
     public void setRPYAxis(String RPYAxis) {
         this.RPYAxis = RPYAxis;
+    }
+
+    public Double[] getInertiaCoordinatesArray() {
+        return inertiaCoordinatesArray;
+    }
+
+    public void setInertiaCoordinatesArray(Inertia inertia) {
+        this.inertiaCoordinatesArray = new Double[]{inertia.getIxx(), inertia.getIxy(),
+                inertia.getIxz(), inertia.getIyy(), inertia.getIyz(), inertia.getIzz()};;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(Pose origin) {
+        this.origin = String.valueOf(origin);
     }
 }

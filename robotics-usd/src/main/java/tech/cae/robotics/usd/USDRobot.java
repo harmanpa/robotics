@@ -11,11 +11,14 @@ public class USDRobot {
 
     public static File tempDir = new File("temp.py");
 
+    public static boolean isRigidBody = false;
+
     public USDRobot(){};
     protected String physicsScene;
     protected String meshAttribute;
     protected String joint;
     protected String parentJoint;
+    protected String childJoint;
     protected String sphereAttribute;
     //Prim is rigid body ???
     protected String childPrim;
@@ -23,6 +26,7 @@ public class USDRobot {
     protected String upperLimit;
     protected String XYZAxis;
     protected String RPYAxis;
+    protected String jointAxis;
     protected String inertiaAttribute;
     protected String massAttribute;
     protected Double[] inertiaCoordinatesArray;
@@ -140,5 +144,21 @@ public class USDRobot {
 
     public void setOrigin(Pose origin) {
         this.origin = String.valueOf(origin);
+    }
+
+    public String getChildJoint() {
+        return childJoint;
+    }
+
+    public void setChildJoint(String childJoint) {
+        this.childJoint = childJoint;
+    }
+
+    public String getJointAxis() {
+        return jointAxis;
+    }
+
+    public void setJointAxis(String jointAxis) {
+        this.jointAxis = jointAxis;
     }
 }

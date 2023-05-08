@@ -7,11 +7,9 @@ import tech.cae.robotics.urdf.*;
 import java.io.File;
 
 public class USDRobot {
-    private final Interpreter interpreter = new SubInterpreter();
+//    private final Interpreter interpreter = new SubInterpreter();
 
     public static File tempDir = new File("temp.py");
-
-    public static boolean isRigidBody = false;
 
     public USDRobot(){};
     protected String physicsScene;
@@ -31,6 +29,7 @@ public class USDRobot {
     protected String massAttribute;
     protected Double[] inertiaCoordinatesArray;
     protected String origin;
+    protected boolean isRigidBody = false;
 
 
     public void setChildPrim(String childPrim) {
@@ -160,5 +159,13 @@ public class USDRobot {
 
     public void setJointAxis(String jointAxis) {
         this.jointAxis = jointAxis;
+    }
+
+    public boolean isRigidBody() {
+        return isRigidBody;
+    }
+
+    public void setRigidBody(boolean rigidBody) {
+        isRigidBody = rigidBody;
     }
 }

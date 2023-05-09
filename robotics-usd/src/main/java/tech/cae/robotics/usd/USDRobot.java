@@ -1,7 +1,5 @@
 package tech.cae.robotics.usd;
 
-import jep.Interpreter;
-import jep.SubInterpreter;
 import tech.cae.robotics.urdf.*;
 
 import java.io.File;
@@ -10,6 +8,8 @@ public class USDRobot {
 //    private final Interpreter interpreter = new SubInterpreter();
 
     public static File tempDir = new File("temp.py");
+
+    public static boolean endOfJoints = true;
 
     public USDRobot(){};
     protected String physicsScene;

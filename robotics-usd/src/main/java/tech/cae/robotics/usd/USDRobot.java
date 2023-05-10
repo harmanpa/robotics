@@ -5,12 +5,7 @@ import tech.cae.robotics.urdf.*;
 import java.io.File;
 
 public class USDRobot {
-//    private final Interpreter interpreter = new SubInterpreter();
-
     public static File tempDir = new File("temp.py");
-
-    public static boolean endOfJoints = true;
-
     public USDRobot(){};
     protected String physicsScene;
     protected String meshAttribute;
@@ -30,6 +25,7 @@ public class USDRobot {
     protected Double[] inertiaCoordinatesArray;
     protected String origin;
     protected boolean isRigidBody = false;
+    protected String visualCounter;
 
 
     public void setChildPrim(String childPrim) {
@@ -64,8 +60,8 @@ public class USDRobot {
         return joint;
     }
 
-    public void setSphereAttribute() {
-        this.sphereAttribute = String.valueOf(0.02);
+    public void setSphereAttribute(String sphereAttribute) {
+        this.sphereAttribute = sphereAttribute;
     }
 
     public String getSphereAttribute() {

@@ -39,6 +39,7 @@ public class USDRobot {
     protected String collisionOriginXYZ;
     protected String collisionOriginRPY;
     protected List<Visual> visualList;
+    protected boolean isRevoluteJoint = false;
 
     public void setInertiaCoordinatesArray(Inertia inertia) {
         this.inertiaCoordinatesArray = Arrays.toString(new Double[]{inertia.getIxx(), inertia.getIxy(),

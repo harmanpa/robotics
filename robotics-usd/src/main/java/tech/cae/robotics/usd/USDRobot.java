@@ -30,8 +30,8 @@ public class USDRobot {
     protected String jointAxis;
     protected String inertiaAttribute;
     protected String massAttribute;
-    @Setter(AccessLevel.NONE)
-    protected String inertiaCoordinatesArray;
+//    @Setter(AccessLevel.NONE)
+    protected Inertia inertia;
     protected String originXYZ;
     protected String originRPY;
     protected boolean isRigidBody = false;
@@ -41,9 +41,9 @@ public class USDRobot {
     protected List<Visual> visualList;
     protected boolean isRevoluteJoint = false;
 
-    public void setInertiaCoordinatesArray(Inertia inertia) {
-        this.inertiaCoordinatesArray = Arrays.toString(new Double[]{inertia.getIxx(), inertia.getIxy(),
-                inertia.getIxz(), inertia.getIyy(), inertia.getIyz(), inertia.getIzz()});
-    }
+//    public void setInertiaCoordinatesArray(Inertia inertia) {
+//        this.inertiaCoordinatesArray = Arrays.toString(new Double[]{inertia.getIxx(), inertia.getIxy(),
+//                inertia.getIxz(), inertia.getIyy(), inertia.getIyz(), inertia.getIzz()});
+//    }
 
 }

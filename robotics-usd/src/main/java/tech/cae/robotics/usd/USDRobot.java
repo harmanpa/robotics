@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 public class USDRobot {
     public static String html;
+    public static String meshesHtml;
     public USDRobot(){};
     protected String physicsScene;
     protected String mass;

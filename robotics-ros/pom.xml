@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>tech.cae</groupId>
@@ -27,7 +29,8 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://gist.githubusercontent.com/SubaruArai/957b7e2ebe212eb2a07d26a73f9a31c3/raw/f2bdfc932f898085b1bc4b0605f12585daf2e906/roslaunch.xsd</url>
+                            <url>
+                                https://gist.githubusercontent.com/SubaruArai/957b7e2ebe212eb2a07d26a73f9a31c3/raw/f2bdfc932f898085b1bc4b0605f12585daf2e906/roslaunch.xsd</url>
                             <outputDirectory>${project.build.directory}/schema/launch</outputDirectory>
                         </configuration>
                     </execution>
@@ -38,7 +41,8 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://raw.githubusercontent.com/ros-infrastructure/rep/master/xsd/package_common.xsd</url>
+                            <url>
+                                https://raw.githubusercontent.com/ros-infrastructure/rep/master/xsd/package_common.xsd</url>
                             <outputDirectory>${project.build.directory}/schema/pkg</outputDirectory>
                         </configuration>
                     </execution>
@@ -49,7 +53,8 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://raw.githubusercontent.com/ros-infrastructure/rep/master/xsd/package_format3.xsd</url>
+                            <url>
+                                https://raw.githubusercontent.com/ros-infrastructure/rep/master/xsd/package_format3.xsd</url>
                             <outputDirectory>${project.build.directory}/schema/pkg</outputDirectory>
                         </configuration>
                     </execution>
@@ -114,6 +119,11 @@
                     <dependency>
                         <groupId>com.sun.xml.bind</groupId>
                         <artifactId>jaxb-impl</artifactId>
+                        <version>4.0.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish.jaxb</groupId>
+                        <artifactId>jaxb-runtime</artifactId>
                         <version>4.0.0</version>
                     </dependency>
                 </dependencies>

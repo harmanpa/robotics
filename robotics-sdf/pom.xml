@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>tech.cae</groupId>
     <artifactId>robotics-sdf</artifactId>
@@ -118,7 +120,7 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <mainClass>tech.cae.robotics.sdf.generator.Generator</mainClass>
-                            <classpathScope>test</classpathScope>                            
+                            <classpathScope>test</classpathScope>
                             <arguments>
                                 <argument>${basedir}/target/sdformat/sdformat-main/sdf/1.6</argument>
                                 <argument>${basedir}/target/generated-sources/java</argument>

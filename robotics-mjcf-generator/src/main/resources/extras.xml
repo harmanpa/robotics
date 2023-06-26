@@ -4,30 +4,42 @@
             <children>
                 <element name="composite" repeated="true">
                     <attributes>
-                        <attribute name="initial" type="keyword" valid_values="none fixed free ball"/>
-                        <attribute name="vertex" type="array" array_type="float"/>
-                        <attribute name="curve" type="string"/>
-                        <attribute name="size" type="array" array_type="float"/>
+                        <attribute name="initial" type="keyword" valid_values="none fixed free ball" />
+                        <attribute name="vertex" type="array" array_type="float" />
+                        <attribute name="curve" type="string" />
+                        <attribute name="size" type="array" array_type="float" />
                     </attributes>
                     <children>
                         <element name="plugin" repeated="true" namespace="sensor">
                             <attributes>
-                                <attribute name="name" type="identifier"/>
-                                <attribute name="plugin" type="reference" reference_namespace="plugin"/>
-                                <attribute name="instance" type="reference" reference_namespace="plugin_instance"/>
-                                <attribute name="cutoff" type="float"/>
-                                <attribute name="objtype" type="keyword" required="true" valid_values="body joint geom site camera light mesh skin hfield texture material equality tendon actuator sensor numeric text tuple contact keyframe"/>
-                                <attribute name="objname" type="reference" required="true" reference_namespace="attrib:objtype"/>
-                                <attribute name="user" type="array" array_type="float"/>
+                                <attribute name="name" type="identifier" />
+                                <attribute name="plugin" type="reference"
+                                    reference_namespace="plugin" />
+                                <attribute name="instance" type="reference"
+                                    reference_namespace="plugin_instance" />
+                                <attribute name="cutoff" type="float" />
+                                <attribute name="objtype" type="keyword" required="true"
+                                    valid_values="body joint geom site camera light mesh skin hfield texture material equality tendon actuator sensor numeric text tuple contact keyframe" />
+                                <attribute name="objname" type="reference" required="true"
+                                    reference_namespace="attrib:objtype" />
+                                <attribute name="user" type="array" array_type="float" />
                             </attributes>
                             <children>
                                 <element name="config" repeated="true">
                                     <attributes>
-                                        <attribute name="key" type="string"/>
-                                        <attribute name="value" type="string"/>
+                                        <attribute name="key" type="string" />
+                                        <attribute name="value" type="string" />
                                     </attributes>
                                 </element>
                             </children>
+                        </element>
+                        <element name="joint" repeated="true">
+                            <attributes>
+                                <attribute name="type" type="keyword"
+                                    valid_values="free ball slide hinge" />
+                                <attribute name="axis" type="array" array_type="float"
+                                    array_size="3" />
+                            </attributes>
                         </element>
                     </children>
                 </element>
@@ -35,30 +47,43 @@
                     <children>
                         <element name="composite" repeated="true">
                             <attributes>
-                                <attribute name="initial" type="keyword" valid_values="none fixed free ball"/>
-                                <attribute name="vertex" type="array" array_type="float"/>
-                                <attribute name="curve" type="string"/>
-                                <attribute name="size" type="array" array_type="float"/>
+                                <attribute name="initial" type="keyword"
+                                    valid_values="none fixed free ball" />
+                                <attribute name="vertex" type="array" array_type="float" />
+                                <attribute name="curve" type="string" />
+                                <attribute name="size" type="array" array_type="float" />
                             </attributes>
                             <children>
                                 <element name="plugin" repeated="true" namespace="sensor">
                                     <attributes>
-                                        <attribute name="name" type="identifier"/>
-                                        <attribute name="plugin" type="reference" reference_namespace="plugin"/>
-                                        <attribute name="instance" type="reference" reference_namespace="plugin_instance"/>
-                                        <attribute name="cutoff" type="float"/>
-                                        <attribute name="objtype" type="keyword" required="true" valid_values="body joint geom site camera light mesh skin hfield texture material equality tendon actuator sensor numeric text tuple contact keyframe"/>
-                                        <attribute name="objname" type="reference" required="true" reference_namespace="attrib:objtype"/>
-                                        <attribute name="user" type="array" array_type="float"/>
+                                        <attribute name="name" type="identifier" />
+                                        <attribute name="plugin" type="reference"
+                                            reference_namespace="plugin" />
+                                        <attribute name="instance" type="reference"
+                                            reference_namespace="plugin_instance" />
+                                        <attribute name="cutoff" type="float" />
+                                        <attribute name="objtype" type="keyword" required="true"
+                                            valid_values="body joint geom site camera light mesh skin hfield texture material equality tendon actuator sensor numeric text tuple contact keyframe" />
+                                        <attribute name="objname" type="reference" required="true"
+                                            reference_namespace="attrib:objtype" />
+                                        <attribute name="user" type="array" array_type="float" />
                                     </attributes>
                                     <children>
                                         <element name="config" repeated="true">
                                             <attributes>
-                                                <attribute name="key" type="string"/>
-                                                <attribute name="value" type="string"/>
+                                                <attribute name="key" type="string" />
+                                                <attribute name="value" type="string" />
                                             </attributes>
                                         </element>
                                     </children>
+                                </element>
+                                <element name="joint" repeated="true">
+                                    <attributes>
+                                        <attribute name="type" type="keyword"
+                                            valid_values="free ball slide hinge" />
+                                        <attribute name="axis" type="array" array_type="float"
+                                            array_size="3" />
+                                    </attributes>
                                 </element>
                             </children>
                         </element>

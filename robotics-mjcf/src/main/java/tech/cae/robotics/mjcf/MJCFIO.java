@@ -25,6 +25,7 @@ package tech.cae.robotics.mjcf;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.google.common.io.ByteStreams;
@@ -49,6 +50,8 @@ public class MJCFIO {
             XMLMAPPER = new XmlMapper();
             XMLMAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
             XMLMAPPER.configure(SerializationFeature.INDENT_OUTPUT, true);
+            XMLMAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);            
+            XMLMAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             XMLMAPPER.getFactory().getXMLOutputFactory().setProperty(com.ctc.wstx.api.WstxOutputProperties.P_USE_DOUBLE_QUOTES_IN_XML_DECL, false);
         }
         return XMLMAPPER;

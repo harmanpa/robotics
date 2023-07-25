@@ -51,7 +51,7 @@ public class RVizConfigFile {
     
     public static RVizConfigFile getDefault() throws IOException {
         RVizConfigFile config = new RVizConfigFile();
-        config.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("tech/cae/robotics/ros/default.rviz"));
+        config.read(RVizConfigFile.class.getClassLoader().getResourceAsStream("tech/cae/robotics/ros/default.rviz"));
         return config;
     }
     

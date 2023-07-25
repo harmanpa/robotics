@@ -91,5 +91,15 @@
                 </element>
             </children>
         </element>
+        <element name="default">
+            <children>
+                <element name="joint">
+                    <attributes>
+                        <attribute name="actuatorforcerange" type="array" array_type="float"
+                            array_size="2" />
+                    </attributes>
+                </element>
+            </children>
+        </element>
     </children>
 </element>

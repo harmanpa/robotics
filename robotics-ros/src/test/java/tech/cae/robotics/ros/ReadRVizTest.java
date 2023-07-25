@@ -34,6 +34,6 @@ public class ReadRVizTest {
     
     @Test
     public void test() throws IOException {
-        new RVizConfigFile().read(Thread.currentThread().getContextClassLoader().getResourceAsStream("tech/cae/robotics/ros/default.rviz"));
+        new RVizConfigFile().read(RVizConfigFile.class.getClassLoader().getResourceAsStream("tech/cae/robotics/ros/default.rviz"));
     }
 }
